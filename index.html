@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Typing Lesson — Very Long Practice (Option A)</title>
+<style>
+  :root{
+    --bg:#0b0f12; --panel:#121416; --muted:#9aa6b2; --accent:#2196f3; --good:#4caf50; --bad:#ff6b6b;
+  }
+  html,body{height:100%}
+  body{
+    margin:0;
+    min-height:100%;
+    background:var(--bg);
+    color:#e6eef8;
+    font-family:system-ui,Segoe UI,Roboto,Arial,monospace;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:28px;
+    box-sizing:border-box;
+  }
+  .card{
+    width:100%;
+    max-width:1150px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    box-sizing:border-box;
+  }
+  h1{margin:0 0 12px 0;color:var(--accent);font-size:20px}
+  #lessonText{
+    background:var(--panel);
+    padding:18px;
+    border-radius:10px;
+    white-space:normal;
+    word-break:break-word;
+    line-height:1.6;
+    font-size:18px;
+    max-height:60vh;
+    overflow:auto;
+    border:1px solid rgba(255,255,255,0.02);
+    caret-color:transparent; /* hide native caret */
+  }
+  .char{padding:0 1px;border-radius:3px;display:inline-block}
+  .correct{color:var(--good);background:rgba(76,175,80,0.06)}
+  .incorrect{color:var(--bad);background:rgba(255,107,107,0.06);text-decoration:underline rgba(255,107,107,0.12) wavy}
+  .current{background:var(--accent);color:#012233;font-weight:700}
+  .controls{display:flex;gap:12px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:8px;font-weight:700}
+  .label{font-size:12px;color:var(--muted);display:block}
+  #progressWrap{background:#222;border-radius:999px;height:14px;overflow:hidden;flex:1;min-width:120px}
+  #progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#7dd3fc);transition:width .08s linear}
+  button{background:var(--accent);border:none;color:#001827;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+  button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+  small.hint{color:var(--muted)}
+  @media(max-width:720px){#lessonText{font-size:16px}}
+</style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>Typing Lesson — Very Long Practice</h1>
+
+    <div id="lessonText" tabindex="0" aria-label="Typing text. Click here and start typing."></div>
+
+    <div class="controls" style="margin-top:12px">
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="stat"><span class="label">WPM</span><div id="wpm">0</div></div>
+        <div class="stat"><span class="label">Accuracy</span><div id="acc">100%</div></div>
+      </div>
+
+      <div id="progressWrap" aria-hidden="true"><div id="progress"></div></div>
+
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+        <button id="restartBtn" title="Restart lesson">Restart</button>
+        <button id="focusBtn" class="secondary" title="Focus typing area">Focus</button>
+      </div>
+    </div>
+
+    <p style="margin-top:12px;color:var(--muted);font-size:13px">
+      Type directly — Backspace undoes previous character. Modifier keys are ignored. Click the lesson box or press <kbd>Focus</kbd>.
+    </p>
+  </main>
+
+<script>
+/* ====== VERY LONG PRACTICE TEXT (option D) ======
+   This text contains heavy occurrences of the requested letters:
+   a s d f g h j k l ; u m y n r v t g b
+   You can edit the block below if you want to tweak length.
+=================================================*/
+
+const text = `asdm ghrv jklu; ntyb mvra ghs; uajn rvgb mk;u asfgh jkl;u myrn dfgh asu; rmtn gk;l vhab sdyu nrvg jklm; afgn ytmr bg;u sdvk ghna rymt vlg;u asdj fhgm; yran bukt ghsd mnjv; tglu ashr mvrt gk;u nfyb jsal; dvgh mrun; katg yslv njrm; gbtu hnav asdf ghl;u mrvy tngb sdam vrjh; unty k;glb asmr yfng; ubtl jvhr; skdm vagt; ryun bvjg; asml dhgt; unrv k;yas mfgb ntrl; uhdv gmas; frkl yhnt; gbmj vusr; dnak gylv; trsm unag; ljrb mvst; ahru k;vlg btyn jhsf; dvam glks; nrbu
+
+dfgm asru; kyhn jml; vgbt sadn uhrv; jklb gmtv; nary k;ug tmnr gbhy; asdl rjkv; uytm ghsb mvrg; klua dsgf ntyv; mbhr ljka rtyn; gvhm asdu; fkan yljr; mtgb vhus; rkml gytn; bubr asdj kmtv; hrnu ygbt; salj vnkr; uhym tfgb; njra k;vst mbhg yktr; sval jhdm; rymb gksu; tvnj mhrb; glan yskf; bjtu rldm; hvng afsk; rtyj bugm; slkv nrhy tjgb; mvrn guak; fsyb jlkd; nvtr ghau bmls; vytn urjg; smdl
+
+fgam hrtu; bnyl svkg; ujrn tmvy; klsb ghua dfmv; trgn ykhs; ualb mvgj; nsrt klbd ygvh; tmun rjka sblv; vyng fmka; ghsu nrtb; lsvg kjun ybta; rmgh dkjs; vnat gluy; hrsm kvaj; fubn smtk; vyhg jlsa dmrn; bvak smru; tlfh gjvs; yurb nhtg; akls vtmn; rgbu shjd; mkyl rtsu; gvma kfyl; hrbn tjsg; mvuk abyn; fjlg srku; hbmt ykvr; ugdr slnv; mjha rybt gsvm; ulka tgnb; mhrj vysk
+
+asgk jflv; mynt rvbt; skdj yghn; umlr tfgb; nvah rlts; ugjm kvnb; sldr ymkf; hrtu gbna; vyls mguk; tjhn rvas; gkyl smrt; ubnf jvks; ryam btlg; unfj skgm; ravt hunk; jgml btsr; vhyu dnak; salf grtm; uvby jmlk; stvh ryga; mkuf bjtn; ghrv alsm; tyuk djng; rmah slkv; gubt yfrn; tmkl hvsa; nrgb yjut; sflh muks; najt vgbm; rusk dngj; flbv hmty; gavs urmk; tjbn lsyg; mfra khsu
+
+jasm vhtg; rulk bnfy; tjgm yvns; hldb ramu; skyt vjhg; gbrn flsk; mtya uvhs; nraj lgtu; hmgv skyb; trfj uvlk; smyn bhjt; gvka rjuv; slnt mgya; ktrf uhsb; jgly btmn; varu hsgk; dfml gynt; vrks ubja; nsgt yhlv; kmug rtfb; jyma svnh; kfbr gnat; vyus hlmr; tjbg uksn; ytrf bnhj; askl fmdy; utnb rgkj; vsuh ymtr; jgkf slhv; taba rngv; mylu shjd; vtrk gnua; jlmv byhs
+
+dfak rjyg; vuns bmth; ykrl svgn; jgsa hutr; nyvl bmak; ftrg yuhn; smdk vngj; hbaf rylu; kjtm sgnv; yvar mthb; gujl ksrv; bnty syha; rmug htjb; slvy kfan; grmt ulyh; bhsj mvgk; narl jfub; tsyv gnhu; kmla vbrt; ujng hlam; svmt rytg; jfkv guba; nrsm ytlk; hvsa gmby; fujr sltn; ymgv bruk; shld kftu; vrng ylsm; jabt ghun; dksm vyra; tglm yuhk; nvsg mhar; fukv ltym
+
+sdat rujy; vknh gmas; blfy stmg; hvru akny; fgbv mrhs; ultn yjks; mhar bgst; vlyu khfr; angv sjtu; lkhv mgru; ybts vjan; hrus kglv; sjhm rfut; mvgk abyl; tusn gjrh; vyrt slhb; gamu nftv; rbms khyg; atvl snyg; jrmh vugs; ybkr glfs; tnav kryu; jfsa mglm; vyhn btrg; skua dnrg; ytmv halj; fgrs nuyt; bmlk vrgh; sfja yknt; vrgu bkys; lyma htng; sbgj vutr; hnak lgrb
+
+agns mjyk; thru vsfj; yaul hrjm; skvg nfml; tbuy jkas; vgnr ymlt; ujah bkrs; tnhy gsvu; kmlr bays; gufs mrty; lsvn fgma; hytn vrku; mjbs alfg; rynt hugk; smjl ftvn; bgyr suth; rmak kghy; tlvr yusb; hngt flrm; bkav smyt; jgsn yfml; urta bvng; jnhs glry; kfuj tvsm; yntr hjga; rbmf slku; vgyt jnmr; suhl akfg; myrv glkb; uyns fkrt; hvgj masn; bruy skmj; ghnt yual
+
+djst rgnm; fhuy ajkv; lmsg vryt; bhks fguj; mvhn yrtb; slga ujkn; khrf bytg; msna gvyr; jhlu fmak; vskg rumy; tnjf ghla; vrym stbg; hgal frnt; ukmm yslv; bafs runh; vgtl kmyr; shuj gkbn; trnf ymhk; slgv ajmt; buks rhgt; vmtu kfyl; ashr nbtg; mvyg lfks; kunt jams; vgsh ryln; kfjt guby; mlsa hvrt; unsy gtfk; brmh avsj; fgtl unyk; rhms kfuj; vlst jnbg
+
+lkas ymvr; fngb trsu; ujmg skyl; vgan hrmt; dylb fukr; tjng mvyr; hsla bgtn; krmv yjuf; gnhk ulsr; tamj vfyg; slnb tukr; ymhs fgla; brvn uskf; tkhn gyru; malr fbvs; jukt shny; mgvt lfar; yusb htrg; nsal kvjm; furg ytnb; shml avtr; jgmy kunl; stej vmbu; hrtb glsf; ynaj ksgm; ftrh umgy; blsm kvtu; yghr nmbs; klnu ytfg; grmj havs; yklb svru; gjtm fhln`;
+
+/* ====== App state ====== */
+const lessonDiv = document.getElementById('lessonText');
+const progressBar = document.getElementById('progress');
+const wpmEl = document.getElementById('wpm');
+const accEl = document.getElementById('acc');
+const restartBtn = document.getElementById('restartBtn');
+const focusBtn = document.getElementById('focusBtn');
+
+let index = 0;               // current cursor position (0..text.length)
+let typed = new Array(text.length); // store typed correctness booleans
+let totalTyped = 0;
+let correctCount = 0;
+let startTs = null;
+
+/* Render full text as spans (one-time) */
+function renderSpans() {
+  const frag = document.createDocumentFragment();
+  // build HTML using spans
+  const wrapper = document.createElement('div');
+  for (let i=0;i<text.length;i++){
+    const sp = document.createElement('span');
+    sp.className = 'char';
+    sp.dataset.i = i;
+    // preserve spaces visually but keep them as text nodes inside the span
+    sp.textContent = text[i];
+    wrapper.appendChild(sp);
+  }
+  // clear and append
+  lessonDiv.innerHTML = '';
+  lessonDiv.appendChild(wrapper);
+  highlightCurrent();
+  updateProgress();
+}
+
+/* Highlight current char and previously typed ones */
+function highlightCurrent() {
+  const spans = lessonDiv.querySelectorAll('.char');
+  // Remove classes outside current range efficiently
+  // We'll iterate near current area to reduce churn
+  for (let i=0;i<spans.length;i++){
+    const sp = spans[i];
+    sp.classList.remove('current','correct','incorrect');
+    if (i < index) {
+      if (typed[i] === true) sp.classList.add('correct');
+      else if (typed[i] === false) sp.classList.add('incorrect');
+    }
+  }
+  if (index < spans.length) {
+    spans[index].classList.add('current');
+    // Auto-scroll so current span is visible (center-ish)
+    const spanRect = spans[index].getBoundingClientRect();
+    const containerRect = lessonDiv.getBoundingClientRect();
+    if (spanRect.top < containerRect.top || spanRect.bottom > containerRect.bottom) {
+      lessonDiv.scrollTop = spans[index].offsetTop - lessonDiv.clientHeight/2 + spans[index].clientHeight/2;
+    }
+  }
+}
+
+/* Update progress bar & stats */
+function updateProgress() {
+  const pct = Math.round((index / text.length) * 100);
+  progressBar.style.width = pct + '%';
+  if (!startTs || totalTyped === 0) {
+    wpmEl.textContent = '0';
+    accEl.textContent = '100%';
+    return;
+  }
+  const minutes = Math.max((Date.now() - startTs) / 60000, 1/60000);
+  const wpm = Math.round((correctCount / 5) / minutes);
+  const acc = Math.round((correctCount / totalTyped) * 100);
+  wpmEl.textContent = isFinite(wpm) ? wpm : 0;
+  accEl.textContent = (isFinite(acc) ? acc : 100) + '%';
+}
+
+/* Key handling */
+document.addEventListener('keydown', (ev) => {
+  // ignore combos
+  if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+  // start timer on first key
+  if (!startTs) startTs = Date.now();
+  // prevent default page scroll on space/backspace/tab
+  if (ev.code === 'Space' || ev.code === 'Backspace' || ev.code === 'Tab') ev.preventDefault();
+
+  // Backspace: undo previous
+  if (ev.key === 'Backspace') {
+    if (index === 0) return;
+    index--;
+    // if previously typed, update counters
+    if (typeof typed[index] !== 'undefined') {
+      if (typed[index]) correctCount = Math.max(0, correctCount - 1);
+      totalTyped = Math.max(0, totalTyped - 1);
+      typed[index] = undefined;
+    }
+    highlightCurrent();
+    updateProgress();
+    return;
+  }
+
+  // Only handle single printable characters (space included)
+  if (ev.key.length === 1) {
+    if (index >= text.length) return; // ignore beyond end
+    const expected = text[index];
+    const actual = ev.key;
+    const isCorrect = actual === expected;
+    typed[index] = !!isCorrect;
+    totalTyped++;
+    if (isCorrect) correctCount++;
+    index++;
+    highlightCurrent();
+    updateProgress();
+    return;
+  }
+
+  // ignore other keys
+});
+
+/* Restart handler */
+restartBtn.addEventListener('click', () => {
+  index = 0;
+  typed = new Array(text.length);
+  totalTyped = 0;
+  correctCount = 0;
+  startTs = null;
+  lessonDiv.scrollTop = 0;
+  renderSpans();
+  updateProgress();
+});
+
+/* Focus helper */
+focusBtn.addEventListener('click', () => {
+  // focus the document to capture keyboard events
+  window.focus();
+  // also scroll to current
+  const current = lessonDiv.querySelector('.char.current');
+  if (current) current.scrollIntoView({block:'center',behavior:'smooth'});
+});
+
+/* Click into lesson -> focus */
+lessonDiv.addEventListener('click', () => {
+  window.focus();
+  const current = lessonDiv.querySelector('.char.current');
+  if (current) current.scrollIntoView({block:'center',behavior:'smooth'});
+});
+
+/* initial render */
+renderSpans();
+updateProgress();
+
+/* expose small API for debugging */
+window.__typing = {
+  textLength: text.length,
+  reset: () => restartBtn.click()
+};
+</script>
+</body>
+</html>
